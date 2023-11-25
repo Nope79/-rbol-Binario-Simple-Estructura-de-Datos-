@@ -40,6 +40,34 @@ public class Arbol {
     
     // METODO DE BUSCAR
     
+    public Nodo buscar3(Nodo x){
+        
+        Nodo aux = raiz;
+        
+        while(aux != null){
+            
+            if(x.getValor() < aux.getValor()){
+                
+                if(aux.getValor() == x.getValor()){
+                    
+                    return x;
+                }
+                
+                aux = aux.getIzquierda();
+            }else{
+                
+                if(aux.getValor() == x.getValor()){
+                    
+                    return x;
+                }
+                
+                aux = aux.getDerecha();
+            }
+        }
+        
+        return null;
+    }
+    
     public boolean buscar(Nodo x){
         
         Nodo aux = raiz;
@@ -101,7 +129,7 @@ public class Arbol {
         return -1;
     }
     
-    public void add(int x){
+    public void a(int x){
         
         if(vacia() == true){
             
@@ -141,11 +169,117 @@ public class Arbol {
         }
     }
     
+    // max y min, menores y mayores
+    
+    public int max(){
+        
+        Nodo aux = raiz;
+        
+        while(aux.getDerecha() != null){
+            
+            aux = aux.getDerecha();
+        }
+        
+        return aux.getValor();
+    }
+    
+    public int min(){
+        
+        Nodo aux = raiz;
+        
+        while(aux.getIzquierda() != null){
+            
+            aux = aux.getIzquierda();
+        }
+        
+        return aux.getValor();
+    }
+    
+    public void mayores(Nodo x, Nodo base){
+        
+        // IMPRESION DE LOS MAYORES SIN RECORRER TODO EL ARBOL, PERO CON INEXACTITUD
+        
+        if(base != null && base.getIzquierda() != null && base.getIzquierda().getValor() >= x.getValor()){
+
+            mayores(x, base.getIzquierda());
+        }
+        
+        if(base.getValor() >= x.getValor()){
+            
+            System.out.print(base.getValor() + " ");
+        }
+        
+        if(base != null && base.getDerecha() != null){
+            
+            mayores(x, base.getDerecha());
+        }
+    }
+    
+    public void mayores2(Nodo x, Nodo base){
+        
+        // IMPRESION TOTAL DE LOS MENORES, PERO RECORRE TODO EL ARBOL
+
+        if(base != null && base.getIzquierda() != null){
+
+            mayores2(x, base.getIzquierda());
+        }
+        
+        if(base.getValor() >= x.getValor()){
+            
+            System.out.print(base.getValor() + " ");
+        }
+        
+        if(base != null && base.getDerecha() != null){
+            
+            mayores2(x, base.getDerecha());
+        }
+    }
+    
+    public void menores(Nodo x, Nodo base){
+        
+        // IMPRESION DE LOS MENORES SIN RECORRER TODO EL ARBOL, PERO CON INEXACTITUD
+        
+        if(base != null && base.getIzquierda() != null){
+            
+            menores(x, base.getIzquierda());
+        }
+        
+        if(base.getValor() < x.getValor()){
+            
+            System.out.print(base.getValor() + " ");
+        }
+        
+        if(base != null && base.getDerecha() != null && base.getDerecha().getValor() < x.getValor()){
+            
+            menores(x, base.getDerecha());
+        }
+    }
+    
+    public void menores2(Nodo x, Nodo base){
+        
+        // IMPRESION TOTAL DE LOS MENORES, PERO RECORRE TODO EL ARBOL
+        
+        if(base != null && base.getIzquierda() != null){
+            
+            menores2(x, base.getIzquierda());
+        }
+        
+        if(base.getValor() < x.getValor()){
+            
+            System.out.print(base.getValor() + " ");
+        }
+        
+        if(base != null && base.getDerecha() != null){
+            
+            menores2(x, base.getDerecha());
+        }
+    }
+    
     public void eliminarXD(Nodo x){
         
         if(vacia() == false && buscar(x) == true){
             
-            // ELIMINAR LA RAIZ
+            // RAIZ :D
             if (raiz.getValor() == x.getValor()) {
                 
                 Nodo aux = raiz;
@@ -186,21 +320,6 @@ public class Arbol {
                     
                     raiz = null;
                 }
-
-                /*Nodo aux = raiz;
-
-                raiz = raiz.getIzquierda();
-                
-                Nodo a = raiz;
-
-                while (raiz.getDerecha() != null) {
-
-                    raiz = raiz.getDerecha();
-                }
-
-                raiz.setDerecha(aux.getDerecha());
-                
-                raiz = a;*/
             }else{
                 
                 Nodo a = raiz;
@@ -219,7 +338,7 @@ public class Arbol {
                     }
                 }
                 
-                // NODO SIN HIJOS
+                // NO HIJOS :D
                 if(aux.getDerecha() == null && aux.getIzquierda() == null){
                     
                     if(a.getDerecha().getValor() == x.getValor()){
@@ -231,7 +350,7 @@ public class Arbol {
                     }
                 }
                 
-                // NODO CON SOLO UN HIJO A LA DERECHA
+                // HIJO DERECHA
                 else if(aux.getDerecha() != null && aux.getIzquierda() == null){
                     
                     a.setDerecha(aux.getDerecha());
@@ -239,7 +358,7 @@ public class Arbol {
                     aux.setDerecha(null);
                 }
                 
-                // NODO CON SOLO UN HIJO A LA IZQUIERDA
+                // HIJO IZQUIERDA
                 else if(aux.getIzquierda() != null && aux.getDerecha() == null){
                     
                     a.setIzquierda(aux.getIzquierda());
@@ -247,7 +366,7 @@ public class Arbol {
                     aux.setIzquierda(null);
                 }
                 
-                // NODO CON DOS HIJOS
+                // UNO Y UNO :D
                 else{
                     
                     if(a.getIzquierda() == aux){
@@ -298,7 +417,7 @@ public class Arbol {
             toString2(x.getIzquierda());
         }
         
-        System.out.print(x + " ");
+        System.out.print(x.getValor() + " ");
         
         if(x != null && x.getDerecha() != null){
             
